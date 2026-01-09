@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TXstore - متجرك الموثوق</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- شريط التنقل العلوي -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1><i class="fas fa-shopping-bag"></i> TXstore</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#products">المنتجات</a></li>
+                <li><a href="#about">عن المتجر</a></li>
+                <li><a href="#contact">اتصل بنا</a></li>
+            </ul>
+            <div class="nav-right">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+                <button class="cart-btn" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- سلة التسوق العائمة -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>سلة التسوق</h2>
+            <button class="close-cart" onclick="toggleCart()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <strong>الإجمالي:</strong>
+                <span id="cartTotal">0 ر.س</span>
+            </div>
+            <button class="checkout-btn" onclick="goToCheckout()">إتمام الشراء</button>
+            <button class="continue-btn" onclick="toggleCart()">متابعة التسوق</button>
+        </div>
+    </div>
+
+    <!-- الصفحة الرئيسية / البانر -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2>مرحباً بك في TXstore</h2>
+            <p>أفضل المنتجات بأرخص الأسعار</p>
+            <button class="cta-btn" onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})">
+                تصفح المنتجات
+            </button>
+        </div>
+    </section>
+
+    <!-- الفئات المميزة -->
+    <section class="categories">
+        <div class="container">
+            <h2>الفئات الرئيسية</h2>
+            <div class="category-grid">
+                <div class="category-card" onclick="filterProducts('discord')">
+                    <i class="fas fa-laptop"></i>
+                    <h3>خدمات الديسكورد</h3>
+                </div>
+                <div class="category-card" onclick="filterProducts('servers')">
+                    <i class="fas fa-shirt"></i>
+                    <h3>خدمات السيرفرات</h3>
+                </div>
+                <div class="category-card" onclick="filterProducts('personal')">
+                    <i class="fas fa-home"></i>
+                    <h3>خدمات شخصية</h3>
+                </div>
+                <div class="category-card" onclick="filterProducts('software')">
+                    <i class="fas fa-dumbbell"></i>
+                    <h3>خدمات البرمجيات</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم المنتجات -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2>المنتجات المتاحة</h2>
+            <div class="filter-bar">
+                <select id="sortSelect" onchange="sortProducts()">
+                    <option value="">اختر الترتيب</option>
+                    <option value="price-low">السعر: الأقل أولاً</option>
+                    <option value="price-high">السعر: الأعلى أولاً</option>
+                    <option value="newest">الأحدث</option>
+                    <option value="popular">الأكثر شهرة</option>
+                </select>
+                <button class="reset-btn" onclick="resetFilters()">إعادة تعيين</button>
+            </div>
+            <div class="products-grid" id="productsGrid"></div>
+        </div>
+    </section>
+
+    <!-- قسم العروض الخاصة -->
+    <section class="offers">
+        <div class="container">
+            <h2>العروض الخاصة</h2>
+            <div class="offers-grid">
+                <div class="offer-card">
+                    <div class="offer-badge">خصم 30%</div>
+                    <img src="https://via.placeholder.com/250x250?text=عرض+1" alt="عرض">
+                    <h3>هاتف ذكي</h3>
+                    <p class="original-price">1500 ر.س</p>
+                    <p class="offer-price">1050 ر.س</p>
+                    <button class="add-btn" onclick="addToCart({id: 1, name: 'هاتف ذكي', price: 1050, image: 'https://via.placeholder.com/250x250?text=عرض+1'})">إضافة للسلة</button>
+                </div>
+                <div class="offer-card">
+                    <div class="offer-badge">خصم 25%</div>
+                    <img src="https://via.placeholder.com/250x250?text=عرض+2" alt="عرض">
+                    <h3>سماعات رأس</h3>
+                    <p class="original-price">500 ر.س</p>
+                    <p class="offer-price">375 ر.س</p>
+                    <button class="add-btn" onclick="addToCart({id: 2, name: 'سماعات رأس', price: 375, image: 'https://via.placeholder.com/250x250?text=عرض+2'})">إضافة للسلة</button>
+                </div>
+                <div class="offer-card">
+                    <div class="offer-badge">خصم 20%</div>
+                    <img src="https://via.placeholder.com/250x250?text=عرض+3" alt="عرض">
+                    <h3>ساعة ذكية</h3>
+                    <p class="original-price">800 ر.س</p>
+                    <p class="offer-price">640 ر.س</p>
+                    <button class="add-btn" onclick="addToCart({id: 3, name: 'ساعة ذكية', price: 640, image: 'https://via.placeholder.com/250x250?text=عرض+3'})">إضافة للسلة</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم المميزات -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-box">
+                    <i class="fas fa-truck"></i>
+                    <h3>شحن سريع</h3>
+                    <p>توصيل في 24-48 ساعة</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fas fa-lock"></i>
+                    <h3>دفع آمن</h3>
+                    <p>تشفير 256-bit SSL</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fas fa-undo"></i>
+                    <h3>إرجاع مجاني</h3>
+                    <p>ضمان الرضا 100%</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fas fa-headset"></i>
+                    <h3>دعم 24/7</h3>
+                    <p>فريق خدمة عملاء متواصل</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- عن المتجر -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>عن TXstore</h2>
+                    <p>نحن متجر إلكتروني موثوق متخصص في تقديم أفضل المنتجات بأسعار تنافسية. مع سنوات من الخبرة في المجال، نعمل جاهدين لتوفير تجربة تسوق ممتازة لعملائنا الكرام.</p>
+                    <p>رؤيتنا هي أن نصبح الخيار الأول للتسوق الإلكتروني في المنطقة من خلال توفير منتجات عالية الجودة وخدمة عملاء استثنائية.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <h3>50K+</h3>
+                            <p>عميل سعيد</p>
+                        </div>
+                        <div class="stat">
+                            <h3>10K+</h3>
+                            <p>منتج متنوع</p>
+                        </div>
+                        <div class="stat">
+                            <h3>100%</h3>
+                            <p>ضمان الجودة</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- نموذج الاتصال -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>اتصل بنا</h2>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <div class="info-box">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3>العنوان</h3>
+                        <p>الرياض، المملكة العربية السعودية</p>
+                    </div>
+                    <div class="info-box">
+                        <i class="fas fa-phone"></i>
+                        <h3>الهاتف</h3>
+                        <p>+966 50 000 0000</p>
+                    </div>
+                    <div class="info-box">
+                        <i class="fas fa-envelope"></i>
+                        <h3>البريد الإلكتروني</h3>
+                        <p>info@txstore.com</p>
+                    </div>
+                </div>
+                <form class="contact-form" onsubmit="submitForm(event)">
+                    <input type="text" placeholder="اسمك" required>
+                    <input type="email" placeholder="بريدك الإلكتروني" required>
+                    <input type="phone" placeholder="رقم هاتفك" required>
+                    <textarea placeholder="رسالتك" rows="5" required></textarea>
+                    <button type="submit" class="submit-btn">إرسال الرسالة</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- الفوتر -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>عن TXstore</h4>
+                    <ul>
+                        <li><a href="#about">عن المتجر</a></li>
+                        <li><a href="#products">المنتجات</a></li>
+                        <li><a href="#contact">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>السياسات</h4>
+                    <ul>
+                        <li><a href="#">سياسة الخصوصية</a></li>
+                        <li><a href="#">شروط الاستخدام</a></li>
+                        <li><a href="#">سياسة الاسترجاع</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>تابعنا</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>الرسالة الإخبارية</h4>
+                    <input type="email" placeholder="بريدك الإلكتروني">
+                    <button>اشترك</button>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 TXstore. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
